@@ -24,7 +24,17 @@ RUN echo 'alba:alba123!' | chpasswd
 
 RUN mkdir /opt/solr
 
-RUN chown -R alba:alba /opt/solr/
+# RUN mkdir /home/alba/albabooks-solr-collection/
+
+# RUN apt-get update
+
+# RUN apt-get -y install git
+
+# RUN apt-get -y install zip
+
+# RUN echo 1 && git clone https://github.com/leonardofoderaro/albabooks-solr-collection /home/alba/albabooks-solr-collection
+
+# RUN chown -R alba:alba /opt/solr/
 
 ADD solr-5.2.1.tgz /opt/solr
 
@@ -34,8 +44,16 @@ COPY alba-0.1.0-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba-0.1.0-SNAPSHO
 
 COPY alba.books-0.0.1-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba.books-0.0.1-SNAPSHOT.jar
 
+# RUN echo 1 && /opt/solr/solr-5.2.1/bin/solr -e cloud -noprompt
+
+# RUN ls -la /home/alba/
+
 EXPOSE 8983
 
 EXPOSE 9983
+
+# RUN cat /home/alba/albabooks-solr-collection/upconfig.sh
+
+# RUN cd /home/alba/albabooks-solr-collection/ && ./upconfig.sh
 
 CMD /opt/solr/solr-5.2.1/bin/solr -e cloud -noprompt && tail -f /opt/solr/solr-5.2.1/bin/solr
