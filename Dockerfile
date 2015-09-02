@@ -1,5 +1,7 @@
 From ubuntu:latest
 
+MAINTAINER leonardo.foderaro@gmail.com
+
 RUN sudo apt-get update
 
 RUN sudo apt-get install -y wget
@@ -14,44 +16,26 @@ RUN sudo apt-get update
 
 RUN sudo apt-get -y install oracle-java8-installer
 
-# todo move in .bashrc
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre/
-
-RUN mkdir /opt/solr
-
-ADD solr-5.2.1.tgz /opt/solr
-
-RUN mkdir -p /opt/solr/solr-5.2.1/custom-libs
-
-COPY alba-0.1.0-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba-0.1.0-SNAPSHOT.jar
-
-COPY alba.books-0.0.1-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba.books-0.0.1-SNAPSHOT.jar
 
 RUN useradd -ms /bin/bash alba
 
 RUN echo 'alba:alba123!' | chpasswd
 
+RUN mkdir /opt/solr
+
 RUN chown -R alba:alba /opt/solr/
 
-RUN apt-get -y install git
+ADD solr-5.2.1.tgz /opt/solr
 
-RUN apt-get -y install unzip
+RUN mkdir -p /opt/solr/solr-5.2.1/custom-libs/
 
-RUN mkdir alba
+COPY alba-0.1.0-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba-0.1.0-SNAPSHOT.jar
 
-RUN cd alba
-
-RUN git clone https://github.com/leonardofoderaro/albabooks-solr-collection.git
-
-RUN cd albabooks-solr-collection
-
-# RUN apt-get -y install python-setuptools python-dev build-essential 
-# RUN easy_install pip
-# RUN pip install solrcloudpy
+COPY alba.books-0.0.1-SNAPSHOT.jar /opt/solr/solr-5.2.1/custom-libs/alba.books-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8983
 
 EXPOSE 9983
 
 CMD /opt/solr/solr-5.2.1/bin/solr -e cloud -noprompt && tail -f /opt/solr/solr-5.2.1/bin/solr
-
