@@ -5,3 +5,5 @@
 build:
     docker build -t leonardofoderaro/alba .
 
+run:
+   docker run -dit -p 9090:8983 -p 9091:9983 leonardofoderaro/alba
