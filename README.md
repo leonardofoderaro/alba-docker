@@ -11,3 +11,5 @@ build:
 
 run:
    docker run -dit -p 9090:8983 -p 9091:9983 alba/latest
+
+Please refer to the [albabooks-solr-collection repo](https://github.com/leonardofoderaro/albabooks-solr-collection) to load the sample dataset
